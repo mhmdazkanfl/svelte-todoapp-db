@@ -54,6 +54,7 @@ You can preview the production build with `npm run preview`.
 - [ ] Change title of the task
 - [ ] Change description of the task
 - [ ] Clear all completed task
+- [ ] Dark Mode
 
 ### Additional Feature
 
