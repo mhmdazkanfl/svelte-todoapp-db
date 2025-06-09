@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+</script>
+
+<div class="flex flex-col">
+	<div>
+		<h1>Welcome to Todo App</h1>
+		<p>by ts0ra</p>
+	</div>
+</div>
