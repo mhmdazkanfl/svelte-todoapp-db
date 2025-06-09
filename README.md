@@ -74,7 +74,3 @@ You can preview the production build with `npm run preview`.
 - [ ] Login throttling and rate limiting
 
 Refrence: [Lucia Auth SvelteKit](https://github.com/lucia-auth/example-sveltekit-email-password-2fa)
-
-### Task Item
-
-- [ ] Add a task
