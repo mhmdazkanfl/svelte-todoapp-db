@@ -9,6 +9,8 @@
 </div>
 
 <div class="flex w-full max-w-sm flex-col">
-	<Button class="mb-2 w-1/2 self-center" onclick={() => goto('/login')}>Login</Button>
+	<Button class="mb-2 w-1/2 self-center" onclick={() => goto('/login')} variant="outline"
+		>Login</Button
+	>
 	<Button class="w-1/2 self-center" onclick={() => goto('/signup')}>Sign Up</Button>
 </div>
