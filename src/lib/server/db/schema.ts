@@ -44,3 +44,13 @@ export const passwordResetSession = sqliteTable('password_reset_session', {
 	emailVerified: integer('email_verified').notNull().default(0),
 	twoFactorVerified: integer('two_factor_verified').notNull().default(0)
 });
+
+export const task = sqliteTable('task', {
+	id: text('id').primaryKey(),
+	userId: integer('user_id')
+		.notNull()
+		.references(() => user.id),
+	title: text('title').notNull(),
+	description: text('description'),
+	completed: integer('completed').notNull().default(0)
+});
