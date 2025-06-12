@@ -19,8 +19,8 @@
 		if (form?.password) password = form.password as string;
 	});
 
-	// const isFormValid = $derived(Boolean(username?.trim() && email?.trim() && password?.trim()));
-	const isFormValid = true;
+	const isFormValid = $derived(Boolean(username?.trim() && email?.trim() && password?.trim()));
+	// const isFormValid = true;
 </script>
 
 <Card.Root class="center w-full max-w-sm">
@@ -37,7 +37,7 @@
 			<div class="flex flex-col gap-6">
 				<div class="grid gap-2">
 					<Label for="username">Username</Label>
-					<Input id="username" type="text" bind:value={username} name="username" />
+					<Input id="username" type="text" bind:value={username} name="username" required />
 				</div>
 				<div class="grid gap-2">
 					<Label for="email">Email</Label>
@@ -47,11 +47,12 @@
 						bind:value={email}
 						name="email"
 						placeholder="m@example.com"
+						required
 					/>
 				</div>
 				<div class="grid gap-2">
 					<Label for="password">Password</Label>
-					<Input id="password" type="password" bind:value={password} name="password" />
+					<Input id="password" type="password" bind:value={password} name="password" required />
 				</div>
 			</div>
 		</form>
