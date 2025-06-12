@@ -4,6 +4,23 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
+	import type { ActionData } from './$types';
+
+	let { form }: { form: ActionData } = $props();
+
+	let username = $state('');
+	let email = $state('');
+	let password = $state('');
+
+	$effect(() => {
+		if (form?.username) username = form.username as string;
+		if (form?.email) email = form.email as string;
+		if (form?.password) password = form.password as string;
+	});
+
+	// const isFormValid = $derived(Boolean(username?.trim() && email?.trim() && password?.trim()));
+	const isFormValid = true;
 </script>
 
 <Card.Root class="center w-full max-w-sm">
@@ -16,25 +33,35 @@
 	</Card.Header>
 
 	<Card.Content>
-		<form>
+		<form id="signup-form" method="POST" action="?/signup" use:enhance>
 			<div class="flex flex-col gap-6">
 				<div class="grid gap-2">
 					<Label for="username">Username</Label>
-					<Input id="username" type="text" name="username" required />
+					<Input id="username" type="text" bind:value={username} name="username" />
 				</div>
 				<div class="grid gap-2">
 					<Label for="email">Email</Label>
-					<Input id="email" type="email" name="email" placeholder="m@example.com" required />
+					<Input
+						id="email"
+						type="email"
+						bind:value={email}
+						name="email"
+						placeholder="m@example.com"
+					/>
 				</div>
 				<div class="grid gap-2">
 					<Label for="password">Password</Label>
-					<Input id="password" type="password" name="password" required />
+					<Input id="password" type="password" bind:value={password} name="password" />
 				</div>
 			</div>
 		</form>
+		<!-- <p class="mt-4 text-red-500" hidden={form?.hideError ?? true}>{form?.message ?? ''}</p> -->
+		{#if form?.message && !form?.hideError}
+			<p class="mt-4 text-red-500">{form.message}</p>
+		{/if}
 	</Card.Content>
 
 	<Card.Footer class="flex-col gap-2">
-		<Button type="submit" class="w-full">Sign Up</Button>
+		<Button type="submit" class="w-full" form="signup-form" disabled={!isFormValid}>Sign Up</Button>
 	</Card.Footer>
 </Card.Root>
