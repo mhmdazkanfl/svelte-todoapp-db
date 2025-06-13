@@ -28,7 +28,7 @@
 		<Card.Title>Sign Up</Card.Title>
 		<Card.Description>Enter your information to create an account</Card.Description>
 		<Card.Action>
-			<Button onclick={() => goto('/login')} variant="link">Login</Button>
+			<Button href="/login" variant="link">Login</Button>
 		</Card.Action>
 	</Card.Header>
 
