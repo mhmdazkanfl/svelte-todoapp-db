@@ -3,6 +3,7 @@ import { db } from './db';
 import { encryptString } from './encryption';
 import { hashPassword } from './password';
 import { user } from './db/schema';
+import { eq } from 'drizzle-orm';
 
 export async function createUser(username: string, email: string, password: string): Promise<User> {
 	const passwordHash = await hashPassword(password);
@@ -37,6 +38,75 @@ export async function createUser(username: string, email: string, password: stri
 	return newUser;
 }
 
+export async function getUserFromUsername(username: string): Promise<User | null> {
+	try {
+		const row = await db
+			.select({
+				id: user.id,
+				email: user.email,
+				username: user.username,
+				emailVerified: user.emailVerified,
+				totpKey: user.totpKey
+			})
+			.from(user)
+			.where(eq(user.username, username))
+			.get();
+
+		if (!row) {
+			return null;
+		}
+
+		const hasTotpKey = row.totpKey !== null ? 1 : 0;
+
+		const tempUser: User = {
+			id: row.id,
+			email: row.email,
+			username: row.username,
+			emailVerified: Boolean(row.emailVerified),
+			registered2FA: Boolean(hasTotpKey)
+		};
+
+		return tempUser;
+	} catch (error) {
+		console.error('Get user form username failed:', error);
+		return null;
+	}
+}
+
+export async function getUserFromEmail(email: string): Promise<User | null> {
+	try {
+		const row = await db
+			.select({
+				id: user.id,
+				email: user.email,
+				username: user.username,
+				emailVerified: user.emailVerified,
+				totpKey: user.totpKey
+			})
+			.from(user)
+			.where(eq(user.email, email))
+			.get();
+
+		if (!row) {
+			return null;
+		}
+
+		const hasTotpKey = row.totpKey !== null ? 1 : 0;
+
+		const tempUser: User = {
+			id: row.id,
+			email: row.email,
+			username: row.username,
+			emailVerified: Boolean(row.emailVerified),
+			registered2FA: Boolean(hasTotpKey)
+		};
+
+		return tempUser;
+	} catch (error) {
+		console.error('Get user form email failed:', error);
+		return null;
+	}
+}
 export interface User {
 	id: number;
 	email: string;

@@ -4,23 +4,27 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
+	import type { ActionData } from './$types';
+
+	let { form }: { form: ActionData } = $props();
 </script>
 
 <Card.Root class="center w-full max-w-sm">
 	<Card.Header>
 		<Card.Title>Sign In</Card.Title>
-		<Card.Description>Enter your email below to login to your account</Card.Description>
+		<Card.Description>Enter your email or username below to login to your account</Card.Description>
 		<Card.Action>
 			<Button onclick={() => goto('/signup')} variant="link">Sign Up</Button>
 		</Card.Action>
 	</Card.Header>
 
 	<Card.Content>
-		<form>
+		<form id="login-form" method="POST" action="?/login" use:enhance>
 			<div class="flex flex-col gap-6">
 				<div class="grid gap-2">
-					<Label for="email">Email or Username</Label>
-					<Input id="email" type="email" required />
+					<Label for="username-or-password">Email or Username</Label>
+					<Input id="username-or-password" type="text" name="username-or-password" required />
 				</div>
 				<div class="grid gap-2">
 					<div class="flex items-center">
@@ -29,13 +33,16 @@
 							Forgot your password?
 						</a>
 					</div>
-					<Input id="password" type="password" required />
+					<Input id="password" type="password" name="password" required />
 				</div>
 			</div>
 		</form>
+		{#if form?.message && !form?.hideError}
+			<p class="mt-4 text-red-500">{form.message}</p>
+		{/if}
 	</Card.Content>
 
 	<Card.Footer class="flex-col gap-2">
-		<Button type="submit" class="w-full">Login</Button>
+		<Button type="submit" class="w-full" form="login-form">Login</Button>
 	</Card.Footer>
 </Card.Root>

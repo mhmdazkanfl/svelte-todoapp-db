@@ -19,16 +19,6 @@ export const actions: Actions = {
 		const email = data.get('email');
 		const password = data.get('password');
 
-		/* if (typeof email !== 'string' || typeof username !== 'string' || typeof password !== 'string') {
-			return fail(400, {
-				message: 'Invalid or missing fields',
-				username: '',
-				email: '',
-				password: '',
-				hidden: false
-			});
-		} */
-
 		if (!validateUsername(username)) {
 			return fail(400, {
 				message: 'Invalid username (must be 5-16 alphanumeric characters, starting with a letter)',
