@@ -7,7 +7,7 @@ import { getUserPasswordHash, verifyPasswordHash } from '$lib/server/password';
 import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
 
 export const load: PageServerLoad = ({ locals }) => {
-	if (locals.session || locals.user) return redirect(302, '/app');
+	if (locals.session || locals.user) return redirect(302, '/');
 	return {};
 };
 
@@ -60,7 +60,7 @@ export const actions: Actions = {
 		const session = await createSession(sessionToken, user.id, sessionFlags);
 		setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
-		throw redirect(302, '/app');
+		throw redirect(302, '/');
 
 		// if (isUsernameOrEmail === ) {
 		// 	return fail(401, {

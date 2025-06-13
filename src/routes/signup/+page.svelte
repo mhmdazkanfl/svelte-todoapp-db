@@ -3,7 +3,7 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
-	import { goto } from '$app/navigation';
+	import Loader2Icon from '@lucide/svelte/icons/loader-2';
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
@@ -20,6 +20,7 @@
 	});
 
 	const isFormValid = $derived(Boolean(username?.trim() && email?.trim() && password?.trim()));
+	let isLoading = $state(false);
 	// const isFormValid = true;
 </script>
 
@@ -33,7 +34,19 @@
 	</Card.Header>
 
 	<Card.Content>
-		<form id="signup-form" method="POST" action="?/signup" use:enhance>
+		<form
+			id="signup-form"
+			method="POST"
+			action="?/signup"
+			use:enhance={({ submitter }) => {
+				isLoading = true;
+
+				return async ({ result, update }) => {
+					isLoading = false;
+					await update();
+				};
+			}}
+		>
 			<div class="flex flex-col gap-6">
 				<div class="grid gap-2">
 					<Label for="username">Username</Label>
@@ -63,6 +76,13 @@
 	</Card.Content>
 
 	<Card.Footer class="flex-col gap-2">
-		<Button type="submit" class="w-full" form="signup-form" disabled={!isFormValid}>Sign Up</Button>
+		<Button type="submit" class="w-full" form="signup-form" disabled={!isFormValid || isLoading}>
+			{#if isLoading}
+				<Loader2Icon class="animate-spin" />
+				Please wait
+			{:else}
+				Sign Up
+			{/if}
+		</Button>
 	</Card.Footer>
 </Card.Root>

@@ -7,7 +7,7 @@ import { createUser } from '$lib/server/user';
 import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
 
 export const load: PageServerLoad = ({ locals }) => {
-	if (locals.session || locals.user) return redirect(302, '/app');
+	if (locals.session || locals.user) return redirect(302, '/');
 	return {};
 };
 
@@ -21,7 +21,8 @@ export const actions: Actions = {
 
 		if (!validateUsername(username)) {
 			return fail(400, {
-				message: 'Invalid username (must be 5-16 alphanumeric characters, starting with a letter)',
+				message:
+					'Invalid username (must be 5-16 alphanumeric characters, starting with a letter, only underscore allowed)',
 				username: '',
 				email: email,
 				password: password,
@@ -89,7 +90,7 @@ export const actions: Actions = {
 		// 	hideError: true
 		// };
 
-		throw redirect(302, '/login');
+		throw redirect(302, '/');
 	}
 };
 
@@ -98,8 +99,7 @@ function validateUsername(username: FormDataEntryValue | null) {
 		typeof username === 'string' &&
 		username.length >= 5 &&
 		username.length <= 16 &&
-		/^[a-z0-9_]+$/.test(username) &&
-		isNaN(Number(username[0]))
+		/^[a-zA-Z][a-zA-Z0-9_]*$/.test(username) // Must start with letter, then allow letters, numbers, underscores
 	);
 }
 
