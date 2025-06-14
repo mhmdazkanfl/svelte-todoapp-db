@@ -46,7 +46,7 @@ export const passwordResetSession = sqliteTable('password_reset_session', {
 });
 
 export const task = sqliteTable('task', {
-	id: text('id').primaryKey(),
+	id: integer('id').primaryKey(),
 	userId: integer('user_id')
 		.notNull()
 		.references(() => user.id),
