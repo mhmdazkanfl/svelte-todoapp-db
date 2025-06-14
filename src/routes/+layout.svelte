@@ -1,13 +1,15 @@
 <script lang="ts">
 	import '../app.css';
-	import { ModeWatcher } from 'mode-watcher';
+	import { ModeWatcher, mode } from 'mode-watcher';
 	import { SunIcon, MoonIcon } from 'lucide-svelte';
 	import { toggleMode } from 'mode-watcher';
+	import { Toaster } from '$lib/components/ui/sonner';
 
 	import { Button } from '$lib/components/ui/button/index.js';
 	let { children } = $props();
 </script>
 
+<Toaster theme={mode.current} />
 <ModeWatcher />
 
 <div class="flex min-h-screen flex-col items-center justify-center">

@@ -27,11 +27,13 @@
 		"bits-ui": "^2.5.0",
 		"clsx": "^2.1.1",
 		"drizzle-kit": "^0.30.2",
+		"mode-watcher": "^1.0.8",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
+		"svelte-sonner": "^1.0.5",
 		"tailwind-merge": "^3.3.0",
 		"tailwind-variants": "^1.0.0",
 		"tailwindcss": "^4.0.0",
@@ -46,7 +48,6 @@
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
 		"drizzle-orm": "^0.40.0",
-		"lucide-svelte": "^0.513.0",
-		"mode-watcher": "^1.0.7"
+		"lucide-svelte": "^0.513.0"
 	}
 }
