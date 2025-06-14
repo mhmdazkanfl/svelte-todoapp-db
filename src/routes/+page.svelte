@@ -6,8 +6,11 @@
 	import * as Tabs from '$lib/components/ui/tabs';
 	import * as Card from '$lib/components/ui/card';
 	import Search from '@lucide/svelte/icons/search';
+	import Loader2Icon from '@lucide/svelte/icons/loader-2';
 	import { enhance } from '$app/forms';
 	import TaskList from '$lib/components/TaskList.svelte';
+
+	let isLoading = $state(false);
 </script>
 
 <form class="absolute top-4 right-16" method="POST" action="?/logout" use:enhance>
@@ -20,14 +23,32 @@
 			<Card.Title class="text-center">Add new task</Card.Title>
 		</Card.Header>
 		<Card.Content>
-			<form id="add-form" action="?/add" method="post" use:enhance>
-				<Input class="mb-2" placeholder="Title" />
-				<Textarea placeholder="Description"></Textarea>
+			<form
+				id="add-form"
+				action="?/addTask"
+				method="POST"
+				use:enhance={({ submitter }) => {
+					isLoading = true;
+
+					return async ({ result, update }) => {
+						isLoading = false;
+						await update();
+					};
+				}}
+			>
+				<Input id="title" type="text" name="title" class="mb-2" placeholder="Title" required />
+				<Textarea id="description" name="description" placeholder="Description"></Textarea>
 			</form>
 		</Card.Content>
 		<Card.Footer>
-			<Button class="mr-2">Add</Button>
-			<Button variant="destructive">Cancel</Button>
+			<Button type="submit" form="add-form" disabled={isLoading}>
+				{#if isLoading}
+					<Loader2Icon class="animate-spin" />
+					Please wait
+				{:else}
+					Add
+				{/if}
+			</Button>
 		</Card.Footer>
 	</Card.Root>
 
