@@ -65,7 +65,8 @@
 				}}
 			>
 				<Input id="title" type="text" name="title" class="mb-2" placeholder="Title" required />
-				<Textarea id="description" name="description" placeholder="Description"></Textarea>
+				<Textarea class="resize-none" id="description" name="description" placeholder="Description"
+				></Textarea>
 			</form>
 		</Card.Content>
 		<Card.Footer>

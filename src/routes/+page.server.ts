@@ -1,7 +1,7 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { deleteSessionTokenCookie, invalidateSession } from '$lib/server/session';
-import { addTask, getAllTask, type Task } from '$lib/server/task';
+import { addTask, getAllTask, updateTask, type Task } from '$lib/server/task';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.session || !locals.user) return redirect(302, '/welcome');
@@ -49,6 +49,28 @@ export const actions: Actions = {
 		return {
 			success: true,
 			message: 'New task added'
+		};
+	},
+
+	updateTask: async ({ request }) => {
+		const data = await request.formData();
+
+		const taskId = Number(data.get('taskId') as string);
+		if (isNaN(taskId)) {
+			return error(400, {
+				message: 'Error'
+			});
+		}
+
+		const title = data.get('title') as string;
+		const description = data.get('description') as string;
+		const checkedValue = data.get('checked') as string;
+		const checked = Number(checkedValue === 'true');
+
+		await updateTask(taskId, title, description, checked);
+
+		return {
+			message: 'Success'
 		};
 	}
 };

@@ -95,15 +95,24 @@
 
 <AlertDialog.Root bind:open={isEditOpen}>
 	<AlertDialog.Content>
-		<Label for="title">Title</Label>
-		<Input value={task.title} name="title" />
-		<Label for="description">Description</Label>
-		<Textarea class="resize-none" rows={8} value={task.description} name="description" />
-
-		<AlertDialog.Footer>
-			<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-			<AlertDialog.Action>Save</AlertDialog.Action>
-		</AlertDialog.Footer>
+		<form action="?/updateTask" method="POST">
+			<input type="hidden" name="taskId" value={task.id} />
+			<input type="hidden" name="checked" value={checked ? 'true' : 'false'} />
+			<Label class="mb-1.5" for="title">Title</Label>
+			<Input class="mb-3" value={task.title} name="title" id="title" type="text" required />
+			<Label class="mb-1.5" for="description">Description</Label>
+			<Textarea
+				class="mb-3 resize-none"
+				rows={8}
+				value={task.description}
+				name="description"
+				id="description"
+			/>
+			<AlertDialog.Footer>
+				<AlertDialog.Cancel type="button">Cancel</AlertDialog.Cancel>
+				<AlertDialog.Action type="submit">Save</AlertDialog.Action>
+			</AlertDialog.Footer>
+		</form>
 	</AlertDialog.Content>
 </AlertDialog.Root>
 
