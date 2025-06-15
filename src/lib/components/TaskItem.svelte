@@ -53,7 +53,7 @@
 	}
 
 	function openTask() {
-		console.log('Ciguy');
+		isTaskOpen = true;
 	}
 </script>
 
@@ -99,7 +99,27 @@
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-			<AlertDialog.Action>Continue</AlertDialog.Action>
+			<AlertDialog.Action>Save</AlertDialog.Action>
+		</AlertDialog.Footer>
+	</AlertDialog.Content>
+</AlertDialog.Root>
+
+<AlertDialog.Root bind:open={isTaskOpen}>
+	<AlertDialog.Content class="flex max-h-2/3 flex-col">
+		<AlertDialog.Header class="flex-shrink-0">
+			<AlertDialog.Title>{task.title}</AlertDialog.Title>
+		</AlertDialog.Header>
+
+		{#if task.description && task.description.trim() !== ''}
+			<div class="grow overflow-auto">
+				<AlertDialog.Description>
+					{task.description}
+				</AlertDialog.Description>
+			</div>
+		{/if}
+
+		<AlertDialog.Footer class="flex-shrink-0">
+			<AlertDialog.Action onclick={() => (isTaskOpen = false)}>OK</AlertDialog.Action>
 		</AlertDialog.Footer>
 	</AlertDialog.Content>
 </AlertDialog.Root>
