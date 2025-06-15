@@ -64,6 +64,14 @@ export async function updateTask(
 	}
 }
 
+export async function deleteTask(taskId: number) {
+	try {
+		await db.delete(task).where(eq(task.id, taskId));
+	} catch (error) {
+		console.error('Error when deleting task: ', error);
+	}
+}
+
 export interface Task {
 	id: number;
 	userId: number;
