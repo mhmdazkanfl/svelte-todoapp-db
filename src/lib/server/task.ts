@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import { db } from './db';
 import { task } from './db/schema';
 
@@ -31,6 +32,15 @@ export async function addTask(
 	} catch (error) {
 		console.error('Error creating a new task: ', error);
 		return null;
+	}
+}
+
+export async function getAllTask(userId: number): Promise<Task[]> {
+	try {
+		const result: Task[] = await db.select().from(task).where(eq(task.userId, userId));
+		return result;
+	} catch (error) {
+		return [];
 	}
 }
 

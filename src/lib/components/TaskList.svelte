@@ -2,18 +2,17 @@
 	import { ScrollArea } from './ui/scroll-area';
 	import { Separator } from './ui/separator';
 	import TaskItem from './TaskItem.svelte';
+	import type { Task } from '$lib/server/task';
 
-	const tags = Array.from({ length: 50 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`);
-	const id = '1';
-	const title = 'Test';
+	let { tasks }: { tasks: Task[] } = $props();
 </script>
 
 <ScrollArea class="h-72 w-full rounded-md border">
 	<div class="p-4">
-		{#each tags as tag (tag)}
+		{#each tasks as task (task.id)}
 			<!-- <TaskItem {id} {title} description={'awdawd'}></TaskItem> -->
 			<Separator></Separator>
-			<TaskItem></TaskItem>
+			<TaskItem {task}></TaskItem>
 			<Separator></Separator>
 		{/each}
 	</div>

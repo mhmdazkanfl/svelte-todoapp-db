@@ -1,11 +1,17 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { deleteSessionTokenCookie, invalidateSession } from '$lib/server/session';
-import { addTask, type Task } from '$lib/server/task';
+import { addTask, getAllTask, type Task } from '$lib/server/task';
 
-export const load: PageServerLoad = ({ locals }) => {
+export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.session || !locals.user) return redirect(302, '/welcome');
-	return {};
+
+	const tasks = await getAllTask(locals.user.id);
+
+	return {
+		user: locals.user,
+		tasks
+	};
 };
 
 export const actions: Actions = {
@@ -41,6 +47,7 @@ export const actions: Actions = {
 		}
 
 		return {
+			success: true,
 			message: 'New task added'
 		};
 	}

@@ -11,6 +11,8 @@
 	import TaskList from '$lib/components/TaskList.svelte';
 	import { toast } from 'svelte-sonner';
 
+	let { data } = $props();
+
 	let isLoading = $state(false);
 	let addForm: HTMLFormElement;
 </script>
@@ -92,13 +94,13 @@
 			</div>
 
 			<Tabs.Content value="all">
-				<TaskList></TaskList>
+				<TaskList tasks={data.tasks} />
 			</Tabs.Content>
 			<Tabs.Content value="active">
-				<TaskList></TaskList>
+				<TaskList tasks={data.tasks.filter((task) => !task.completed)} />
 			</Tabs.Content>
 			<Tabs.Content value="completed">
-				<TaskList></TaskList>
+				<TaskList tasks={data.tasks.filter((task) => task.completed)} />
 			</Tabs.Content>
 		</Tabs.Root>
 	</div>
