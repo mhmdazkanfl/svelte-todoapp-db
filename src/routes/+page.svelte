@@ -31,14 +31,16 @@
 	});
 </script>
 
-<form class="absolute top-4 right-16" method="POST" action="?/logout" use:enhance>
-	<Button type="submit">Log out</Button>
-</form>
+<div class="fixed top-4 left-4 z-40">
+	<form method="POST" action="?/logout" use:enhance>
+		<Button type="submit" size="sm" class="text-xs sm:text-sm">Log out</Button>
+	</form>
+</div>
 
-<div class="max-h-9/10 w-full max-w-sm md:max-w-xl">
-	<Card.Root class="center mb-4 w-full max-w-sm md:max-w-xl">
-		<Card.Header>
-			<Card.Title class="text-center">Add new task</Card.Title>
+<div class="mx-auto w-full max-w-7xl">
+	<Card.Root class="mx-auto mb-6 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl">
+		<Card.Header class="text-center">
+			<Card.Title class="text-lg sm:text-xl md:text-2xl">Add new task</Card.Title>
 		</Card.Header>
 		<Card.Content>
 			<form
@@ -64,50 +66,82 @@
 					};
 				}}
 			>
-				<Input id="title" type="text" name="title" class="mb-2" placeholder="Title" required />
-				<Textarea class="resize-none" id="description" name="description" placeholder="Description"
-				></Textarea>
+				<div class="space-y-4">
+					<Input
+						id="title"
+						type="text"
+						name="title"
+						placeholder="Task title..."
+						required
+						class="text-sm sm:text-base"
+					/>
+					<Textarea
+						class="min-h-[80px] resize-none text-sm sm:text-base"
+						id="description"
+						name="description"
+						placeholder="Task description (optional)..."
+						rows={3}
+					/>
+				</div>
 			</form>
 		</Card.Content>
 		<Card.Footer>
-			<Button type="submit" form="add-form" disabled={isLoading}>
+			<Button
+				type="submit"
+				form="add-form"
+				disabled={isLoading}
+				class="w-full text-sm sm:text-base"
+			>
 				{#if isLoading}
-					<Loader2Icon class="animate-spin" />
-					Please wait
+					<Loader2Icon class="mr-2 h-4 w-4 animate-spin" />
+					Adding task...
 				{:else}
-					Add
+					Add Task
 				{/if}
 			</Button>
 		</Card.Footer>
 	</Card.Root>
 
-	<div class="center flex w-full max-w-sm flex-col gap-6 md:max-w-xl">
-		<Tabs.Root value="all">
-			<Tabs.List>
-				<Tabs.Trigger value="all">
-					All
-					<Badge class="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
-						>{data.tasks.length}</Badge
-					>
-				</Tabs.Trigger>
-				<Tabs.Trigger value="active">
-					Active
+	<div class="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl">
+		<Tabs.Root value="all" class="w-full">
+			<Tabs.List class="mb-4 grid w-full grid-cols-3">
+				<Tabs.Trigger value="all" class="flex items-center gap-1 text-xs sm:text-sm">
+					<span class="hidden sm:inline">All Tasks</span>
+					<span class="sm:hidden">All</span>
 					<Badge
-						class="h-5 min-w-5 rounded-full bg-blue-600 px-1 font-mono text-white tabular-nums dark:bg-blue-500 "
-						>{data.tasks.filter((task) => !task.completed).length}
+						class="h-4 min-w-4 rounded-full px-1 font-mono text-[10px] sm:h-5 sm:min-w-5 sm:text-xs"
+					>
+						{data.tasks.length}
 					</Badge>
 				</Tabs.Trigger>
-				<Tabs.Trigger value="completed">
-					Completed
-					<Badge variant="destructive" class="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums">
+				<Tabs.Trigger value="active" class="flex items-center gap-1 text-xs sm:text-sm">
+					<span class="hidden sm:inline">Active</span>
+					<span class="sm:hidden">Active</span>
+					<Badge
+						class="h-4 min-w-4 rounded-full bg-blue-600 px-1 font-mono text-[10px] text-white sm:h-5 sm:min-w-5 sm:text-xs dark:bg-blue-500"
+					>
+						{data.tasks.filter((task) => !task.completed).length}
+					</Badge>
+				</Tabs.Trigger>
+				<Tabs.Trigger value="completed" class="flex items-center gap-1 text-xs sm:text-sm">
+					<span class="hidden sm:inline">Completed</span>
+					<span class="sm:hidden">Done</span>
+					<Badge
+						variant="destructive"
+						class="h-4 min-w-4 rounded-full px-1 font-mono text-[10px] sm:h-5 sm:min-w-5 sm:text-xs"
+					>
 						{data.tasks.filter((task) => task.completed).length}
 					</Badge>
 				</Tabs.Trigger>
 			</Tabs.List>
 
-			<div class="relative">
-				<Search class="text-muted-foreground absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2" />
-				<Input placeholder="Search task..." class="pl-8" bind:value={searchQuery} />
+			<div class="relative mb-4">
+				<Search class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+				<Input
+					placeholder="Search tasks..."
+					class="pl-10 text-sm sm:text-base"
+					bind:value={searchQuery}
+				/>
 			</div>
 
 			<Tabs.Content value="all">

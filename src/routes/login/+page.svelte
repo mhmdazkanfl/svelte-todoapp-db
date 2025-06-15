@@ -12,58 +12,93 @@
 	let isLoading = $state(false);
 </script>
 
-<Card.Root class="center w-full max-w-sm">
-	<Card.Header>
-		<Card.Title>Sign In</Card.Title>
-		<Card.Description>Enter your email or username below to login to your account</Card.Description>
-		<Card.Action>
-			<Button href="/signup" variant="link">Sign Up</Button>
-		</Card.Action>
-	</Card.Header>
-
-	<Card.Content>
-		<form
-			id="login-form"
-			method="POST"
-			action="?/login"
-			use:enhance={({ submitter }) => {
-				isLoading = true;
-
-				return async ({ result, update }) => {
-					isLoading = false;
-					await update();
-				};
-			}}
-		>
-			<div class="flex flex-col gap-6">
-				<div class="grid gap-2">
-					<Label for="username-or-password">Email or Username</Label>
-					<Input id="username-or-password" type="text" name="username-or-password" required />
+<div class="mx-auto w-full max-w-sm sm:max-w-md">
+	<Card.Root class="w-full shadow-lg">
+		<Card.Header class="space-y-2 text-center sm:text-left">
+			<Card.Title class="text-xl font-bold sm:text-2xl">Welcome Back</Card.Title>
+			<Card.Description class="text-muted-foreground text-sm sm:text-base">
+				Sign in to your account to access your tasks
+			</Card.Description>
+			<Card.Action class="pt-2">
+				<div class="text-center">
+					<span class="text-muted-foreground text-sm">Don't have an account?</span>
+					<Button href="/signup" variant="link" class="text-primary h-auto p-0 font-medium">
+						Create one here
+					</Button>
 				</div>
-				<div class="grid gap-2">
-					<div class="flex items-center">
-						<Label for="password">Password</Label>
-						<a href="##" class="ml-auto inline-block text-sm underline-offset-4 hover:underline">
-							Forgot your password?
-						</a>
+			</Card.Action>
+		</Card.Header>
+
+		<Card.Content class="space-y-4">
+			<form
+				id="login-form"
+				method="POST"
+				action="?/login"
+				class="space-y-4"
+				use:enhance={({ submitter }) => {
+					isLoading = true;
+
+					return async ({ result, update }) => {
+						isLoading = false;
+						await update();
+					};
+				}}
+			>
+				<div class="space-y-4">
+					<div class="space-y-2">
+						<Label for="username-or-password" class="text-sm font-medium">Email or Username</Label>
+						<Input
+							id="username-or-password"
+							type="text"
+							name="username-or-password"
+							placeholder="Enter your email or username"
+							class="text-sm sm:text-base"
+							required
+						/>
 					</div>
-					<Input id="password" type="password" name="password" required />
+					<div class="space-y-2">
+						<div class="flex items-center justify-between">
+							<Label for="password" class="text-sm font-medium">Password</Label>
+							<a
+								href="##"
+								class="text-primary hover:text-primary/80 text-xs underline-offset-4 hover:underline sm:text-sm"
+							>
+								Forgot password?
+							</a>
+						</div>
+						<Input
+							id="password"
+							type="password"
+							name="password"
+							placeholder="Enter your password"
+							class="text-sm sm:text-base"
+							required
+						/>
+					</div>
 				</div>
-			</div>
-		</form>
-		{#if form?.message && !form?.hideError}
-			<p class="mt-4 text-red-500">{form.message}</p>
-		{/if}
-	</Card.Content>
+			</form>
 
-	<Card.Footer class="flex-col gap-2">
-		<Button type="submit" class="w-full" form="login-form" disabled={isLoading}>
-			{#if isLoading}
-				<Loader2Icon class="animate-spin" />
-				Please wait
-			{:else}
-				Login
+			{#if form?.message && !form?.hideError}
+				<div class="bg-destructive/15 mt-4 rounded-md p-3">
+					<p class="text-destructive text-sm font-medium">{form.message}</p>
+				</div>
 			{/if}
-		</Button>
-	</Card.Footer>
-</Card.Root>
+		</Card.Content>
+
+		<Card.Footer class="space-y-3">
+			<Button
+				type="submit"
+				class="w-full text-sm font-medium sm:text-base"
+				form="login-form"
+				disabled={isLoading}
+			>
+				{#if isLoading}
+					<Loader2Icon class="mr-2 h-4 w-4 animate-spin" />
+					Signing in...
+				{:else}
+					Sign In
+				{/if}
+			</Button>
+		</Card.Footer>
+	</Card.Root>
+</div>
