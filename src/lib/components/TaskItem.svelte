@@ -61,77 +61,124 @@
 </script>
 
 <div
-	class="flex py-2"
+	class="group hover:bg-muted/50 flex cursor-pointer items-center gap-3 px-4 py-3 transition-colors duration-200"
 	onclick={openTask}
 	role="button"
 	tabindex="0"
 	onkeydown={(e) => e.key === 'Enter' && openTask()}
 >
 	<Checkbox
-		class="mr-3 h-4 w-4 flex-none self-center"
+		class="h-4 w-4 flex-shrink-0"
 		bind:checked
 		onCheckedChange={updateTask}
 		onclick={handleCheckboxClick}
 	/>
 
-	<div class="mr-3 flex w-full grow flex-col justify-center">
-		<p>{task.title}</p>
+	<div class="min-w-0 flex-1 space-y-1">
+		<p
+			class="leading-tight font-medium {checked
+				? 'text-muted-foreground line-through'
+				: ''} truncate"
+		>
+			{task.title}
+		</p>
 		{#if task.description && task.description.trim() !== ''}
-			<p class="text-muted-foreground line-clamp-3 text-sm whitespace-pre-wrap">
+			<p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed whitespace-pre-wrap">
 				{task.description}
 			</p>
 		{/if}
 	</div>
 
-	<div class="flex flex-none items-center justify-center gap-2">
-		<Button size="icon" onclick={editTask}>
-			<Pencil />
+	<div
+		class="flex items-center gap-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+	>
+		<Button
+			size="sm"
+			variant="ghost"
+			class="hover:bg-primary/10 hover:text-primary h-8 w-8 p-0"
+			onclick={editTask}
+			title="Edit task"
+		>
+			<Pencil size="14" />
 		</Button>
-		<Button variant="destructive" size="icon" onclick={deleteTask}>
-			<Trash />
+		<Button
+			size="sm"
+			variant="ghost"
+			class="hover:bg-destructive/10 hover:text-destructive h-8 w-8 p-0"
+			onclick={deleteTask}
+			title="Delete task"
+		>
+			<Trash size="14" />
 		</Button>
 	</div>
 </div>
 
 <AlertDialog.Root bind:open={isEditOpen}>
-	<AlertDialog.Content>
+	<AlertDialog.Content class="max-w-md">
+		<AlertDialog.Header>
+			<AlertDialog.Title>Edit Task</AlertDialog.Title>
+			<AlertDialog.Description>Make changes to your task details below.</AlertDialog.Description>
+		</AlertDialog.Header>
 		<form action="?/updateTask" method="POST">
 			<input type="hidden" name="taskId" value={task.id} />
 			<input type="hidden" name="checked" value={checked ? 'true' : 'false'} />
-			<Label class="mb-1.5" for="title">Title</Label>
-			<Input class="mb-3" value={task.title} name="title" id="title" type="text" required />
-			<Label class="mb-1.5" for="description">Description</Label>
-			<Textarea
-				class="mb-3 resize-none"
-				rows={8}
-				value={task.description}
-				name="description"
-				id="description"
-			/>
-			<AlertDialog.Footer>
+			<div class="space-y-4">
+				<div class="space-y-2">
+					<Label for="title">Title</Label>
+					<Input
+						value={task.title}
+						name="title"
+						id="title"
+						type="text"
+						required
+						placeholder="Enter task title"
+						class="focus:ring-primary/20 focus:ring-2"
+					/>
+				</div>
+				<div class="space-y-2">
+					<Label for="description">Description</Label>
+					<Textarea
+						class="focus:ring-primary/20 resize-none focus:ring-2"
+						rows={4}
+						value={task.description}
+						name="description"
+						id="description"
+						placeholder="Enter task description (optional)"
+					/>
+				</div>
+			</div>
+			<AlertDialog.Footer class="mt-6">
 				<AlertDialog.Cancel type="button">Cancel</AlertDialog.Cancel>
-				<AlertDialog.Action type="submit">Save</AlertDialog.Action>
+				<AlertDialog.Action type="submit">Save Changes</AlertDialog.Action>
 			</AlertDialog.Footer>
 		</form>
 	</AlertDialog.Content>
 </AlertDialog.Root>
 
 <AlertDialog.Root bind:open={isTaskOpen}>
-	<AlertDialog.Content class="flex max-h-2/3 flex-col">
-		<AlertDialog.Header class="flex-shrink-0">
-			<AlertDialog.Title>{task.title}</AlertDialog.Title>
+	<AlertDialog.Content class="flex max-h-[80vh] max-w-lg flex-col">
+		<AlertDialog.Header class="flex-shrink-0 pb-4">
+			<AlertDialog.Title class="pr-6 text-lg leading-tight font-semibold">
+				{task.title}
+			</AlertDialog.Title>
 		</AlertDialog.Header>
 
 		{#if task.description && task.description.trim() !== ''}
-			<div class="grow overflow-auto whitespace-pre-wrap">
-				<AlertDialog.Description>
+			<div class="-mx-1 flex-grow overflow-auto px-1 py-2">
+				<AlertDialog.Description class="text-sm leading-relaxed whitespace-pre-wrap">
 					{task.description}
 				</AlertDialog.Description>
 			</div>
+		{:else}
+			<div class="flex flex-grow items-center justify-center py-8">
+				<p class="text-muted-foreground text-sm italic">No description provided</p>
+			</div>
 		{/if}
 
-		<AlertDialog.Footer class="flex-shrink-0">
-			<AlertDialog.Action onclick={() => (isTaskOpen = false)}>OK</AlertDialog.Action>
+		<AlertDialog.Footer class="flex-shrink-0 pt-4">
+			<AlertDialog.Action onclick={() => (isTaskOpen = false)} class="w-full sm:w-auto">
+				Close
+			</AlertDialog.Action>
 		</AlertDialog.Footer>
 	</AlertDialog.Content>
 </AlertDialog.Root>

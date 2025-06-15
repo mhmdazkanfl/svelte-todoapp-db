@@ -8,19 +8,22 @@
 	let { tasks }: { tasks: Task[] } = $props();
 </script>
 
-<ScrollArea class="h-72 w-full rounded-md border">
-	<div class="h-full w-full p-4">
+<ScrollArea class="h-80 w-full rounded-lg border shadow-sm">
+	<div class="h-full w-full">
 		{#if tasks.length === 0}
-			<div class="text-muted-foreground flex h-full flex-col items-center justify-center">
-				<FileText class="mb-2" size="68" />
-				<p>No tasks available</p>
+			<div class="text-muted-foreground flex h-full flex-col items-center justify-center p-8">
+				<div class="bg-muted/50 mb-4 rounded-full p-4">
+					<FileText size="32" class="text-muted-foreground/60" />
+				</div>
+				<h3 class="mb-1 text-base font-medium">No tasks found</h3>
+				<p class="text-center text-sm">Create your first task to get started</p>
 			</div>
 		{:else}
-			{#each tasks as task (task.id)}
-				<Separator></Separator>
-				<TaskItem {task}></TaskItem>
-				<Separator></Separator>
-			{/each}
+			<div class="divide-border divide-y">
+				{#each tasks as task (task.id)}
+					<TaskItem {task}></TaskItem>
+				{/each}
+			</div>
 		{/if}
 	</div>
 </ScrollArea>
