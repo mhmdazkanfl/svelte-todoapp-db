@@ -10,17 +10,14 @@
 	import * as AlertDialog from './ui/alert-dialog';
 	import { buttonVariants } from './ui/button';
 	import { Label } from './ui/label';
-
 	let { task }: { task: Task } = $props();
 	let isEditOpen = $state(false);
 	let isTaskOpen = $state(false);
 
-	let checked = $state(Boolean(task.completed));
-
-	async function updateTask() {
+	async function updateTask(newCheckedState: boolean) {
 		const response = await fetch('/api/task', {
 			method: 'POST',
-			body: JSON.stringify({ task, checked, action: 0 }),
+			body: JSON.stringify({ task, checked: newCheckedState, action: 0 }),
 			headers: {
 				'content-type': 'application/json'
 			}
@@ -30,12 +27,11 @@
 			await invalidateAll();
 		}
 	}
-
 	async function deleteTask(event: Event) {
 		event.stopPropagation();
 		const response = await fetch('/api/task', {
 			method: 'POST',
-			body: JSON.stringify({ task, checked, action: 1 }),
+			body: JSON.stringify({ task, checked: Boolean(task.completed), action: 1 }),
 			headers: {
 				'content-type': 'application/json'
 			}
@@ -69,14 +65,14 @@
 >
 	<Checkbox
 		class="h-4 w-4 flex-shrink-0"
-		bind:checked
-		onCheckedChange={updateTask}
+		checked={Boolean(task.completed)}
+		onCheckedChange={(checked) => updateTask(Boolean(checked))}
 		onclick={handleCheckboxClick}
 	/>
 
 	<div class="min-w-0 flex-1 space-y-1">
 		<p
-			class="leading-tight font-medium {checked
+			class="leading-tight font-medium {Boolean(task.completed)
 				? 'text-muted-foreground line-through'
 				: ''} truncate"
 		>
@@ -121,7 +117,7 @@
 		</AlertDialog.Header>
 		<form action="?/updateTask" method="POST">
 			<input type="hidden" name="taskId" value={task.id} />
-			<input type="hidden" name="checked" value={checked ? 'true' : 'false'} />
+			<input type="hidden" name="checked" value={Boolean(task.completed) ? 'true' : 'false'} />
 			<div class="space-y-4">
 				<div class="space-y-2">
 					<Label for="title">Title</Label>
