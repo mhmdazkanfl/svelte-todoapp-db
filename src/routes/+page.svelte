@@ -15,6 +15,20 @@
 
 	let isLoading = $state(false);
 	let addForm: HTMLFormElement;
+	let searchQuery = $state('');
+
+	let filteredTasks = $derived.by(() => {
+		if (!searchQuery.trim()) {
+			return data.tasks;
+		}
+
+		const query = searchQuery.toLowerCase().trim();
+		return data.tasks.filter(
+			(task) =>
+				task.title.toLowerCase().includes(query) ||
+				(task.description && task.description.toLowerCase().includes(query))
+		);
+	});
 </script>
 
 <form class="absolute top-4 right-16" method="POST" action="?/logout" use:enhance>
@@ -71,36 +85,38 @@
 			<Tabs.List>
 				<Tabs.Trigger value="all">
 					All
-					<Badge class="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums">12</Badge>
+					<Badge class="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
+						>{data.tasks.length}</Badge
+					>
 				</Tabs.Trigger>
 				<Tabs.Trigger value="active">
 					Active
 					<Badge
 						class="h-5 min-w-5 rounded-full bg-blue-600 px-1 font-mono text-white tabular-nums dark:bg-blue-500 "
-						>10
+						>{data.tasks.filter((task) => !task.completed).length}
 					</Badge>
 				</Tabs.Trigger>
 				<Tabs.Trigger value="completed">
 					Completed
 					<Badge variant="destructive" class="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums">
-						2
+						{data.tasks.filter((task) => task.completed).length}
 					</Badge>
 				</Tabs.Trigger>
 			</Tabs.List>
 
 			<div class="relative">
 				<Search class="text-muted-foreground absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2" />
-				<Input placeholder="Filters" class="pl-8" />
+				<Input placeholder="Search task..." class="pl-8" bind:value={searchQuery} />
 			</div>
 
 			<Tabs.Content value="all">
-				<TaskList tasks={data.tasks} />
+				<TaskList tasks={filteredTasks} />
 			</Tabs.Content>
 			<Tabs.Content value="active">
-				<TaskList tasks={data.tasks.filter((task) => !task.completed)} />
+				<TaskList tasks={filteredTasks.filter((task) => !task.completed)} />
 			</Tabs.Content>
 			<Tabs.Content value="completed">
-				<TaskList tasks={data.tasks.filter((task) => task.completed)} />
+				<TaskList tasks={filteredTasks.filter((task) => task.completed)} />
 			</Tabs.Content>
 		</Tabs.Root>
 	</div>
