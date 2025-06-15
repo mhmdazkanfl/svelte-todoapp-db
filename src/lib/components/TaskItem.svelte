@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
+	import { Input } from './ui/input';
+	import { Textarea } from './ui/textarea';
 	import type { Task } from '$lib/server/task';
 	import { Button } from './ui/button';
 	import { Checkbox } from './ui/checkbox';
@@ -7,6 +9,7 @@
 	import Trash from '@lucide/svelte/icons/trash';
 	import * as AlertDialog from './ui/alert-dialog';
 	import { buttonVariants } from './ui/button';
+	import { Label } from './ui/label';
 
 	let { task }: { task: Task } = $props();
 	let isEditOpen = $state(false);
@@ -74,7 +77,9 @@
 	<div class="mr-3 flex w-full grow flex-col justify-center">
 		<p>{task.title}</p>
 		{#if task.description && task.description.trim() !== ''}
-			<p class="text-muted-foreground line-clamp-3 text-sm">{task.description}</p>
+			<p class="text-muted-foreground line-clamp-3 text-sm whitespace-pre-wrap">
+				{task.description}
+			</p>
 		{/if}
 	</div>
 
@@ -90,13 +95,11 @@
 
 <AlertDialog.Root bind:open={isEditOpen}>
 	<AlertDialog.Content>
-		<AlertDialog.Header>
-			<AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
-			<AlertDialog.Description>
-				This action cannot be undone. This will permanently delete your account and remove your data
-				from our servers.
-			</AlertDialog.Description>
-		</AlertDialog.Header>
+		<Label for="title">Title</Label>
+		<Input value={task.title} name="title" />
+		<Label for="description">Description</Label>
+		<Textarea class="resize-none" rows={8} value={task.description} name="description" />
+
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 			<AlertDialog.Action>Save</AlertDialog.Action>
@@ -111,7 +114,7 @@
 		</AlertDialog.Header>
 
 		{#if task.description && task.description.trim() !== ''}
-			<div class="grow overflow-auto">
+			<div class="grow overflow-auto whitespace-pre-wrap">
 				<AlertDialog.Description>
 					{task.description}
 				</AlertDialog.Description>
