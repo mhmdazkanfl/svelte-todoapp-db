@@ -44,6 +44,26 @@ export async function getAllTask(userId: number): Promise<Task[]> {
 	}
 }
 
+export async function updateTask(
+	taskId: number,
+	title: string,
+	description: string | null,
+	completed: number
+) {
+	try {
+		await db
+			.update(task)
+			.set({
+				title: title,
+				description: description,
+				completed: completed
+			})
+			.where(eq(task.id, taskId));
+	} catch (error) {
+		console.error('Error when updating task: ', error);
+	}
+}
+
 export interface Task {
 	id: number;
 	userId: number;
