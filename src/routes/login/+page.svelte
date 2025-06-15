@@ -19,14 +19,6 @@
 			<Card.Description class="text-muted-foreground text-sm sm:text-base">
 				Sign in to your account to access your tasks
 			</Card.Description>
-			<Card.Action class="pt-2">
-				<div class="text-center">
-					<span class="text-muted-foreground text-sm">Don't have an account?</span>
-					<Button href="/signup" variant="link" class="text-primary h-auto p-0 font-medium">
-						Create one here
-					</Button>
-				</div>
-			</Card.Action>
 		</Card.Header>
 
 		<Card.Content class="space-y-4">
@@ -83,6 +75,13 @@
 					<p class="text-destructive text-sm font-medium">{form.message}</p>
 				</div>
 			{/if}
+
+			<div class="text-center">
+				<span class="text-muted-foreground text-sm">Don't have an account?</span>
+				<Button href="/signup" variant="link" class="text-primary h-auto p-0 font-medium">
+					Create one here
+				</Button>
+			</div>
 		</Card.Content>
 
 		<Card.Footer class="space-y-3">

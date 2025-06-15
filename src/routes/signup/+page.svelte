@@ -31,14 +31,6 @@
 			<Card.Description class="text-muted-foreground text-sm sm:text-base">
 				Enter your information to create an account
 			</Card.Description>
-			<Card.Action class="pt-2">
-				<div class="text-center">
-					<span class="text-muted-foreground text-sm">Already have an account?</span>
-					<Button href="/login" variant="link" class="text-primary h-auto p-0 font-medium">
-						Sign in here
-					</Button>
-				</div>
-			</Card.Action>
 		</Card.Header>
 
 		<Card.Content class="space-y-4">
@@ -101,6 +93,13 @@
 					<p class="text-destructive text-sm font-medium">{form.message}</p>
 				</div>
 			{/if}
+
+			<div class="text-center">
+				<span class="text-muted-foreground text-sm">Already have an account?</span>
+				<Button href="/login" variant="link" class="text-primary h-auto p-0 font-medium">
+					Sign in here
+				</Button>
+			</div>
 		</Card.Content>
 
 		<Card.Footer class="space-y-3">
