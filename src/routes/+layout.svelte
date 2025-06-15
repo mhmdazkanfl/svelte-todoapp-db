@@ -1,7 +1,8 @@
 <script lang="ts">
 	import '../app.css';
 	import { ModeWatcher, mode } from 'mode-watcher';
-	import { SunIcon, MoonIcon } from 'lucide-svelte';
+	import SunIcon from '@lucide/svelte/icons/sun';
+	import MoonIcon from '@lucide/svelte/icons/moon';
 	import { toggleMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
 
