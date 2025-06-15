@@ -7,12 +7,14 @@
 	import { Checkbox } from './ui/checkbox';
 	import Pencil from '@lucide/svelte/icons/pencil';
 	import Trash from '@lucide/svelte/icons/trash';
+	import Loader2Icon from '@lucide/svelte/icons/loader-2';
 	import * as AlertDialog from './ui/alert-dialog';
-	import { buttonVariants } from './ui/button';
+	import { enhance } from '$app/forms';
 	import { Label } from './ui/label';
 	let { task }: { task: Task } = $props();
 	let isEditOpen = $state(false);
 	let isTaskOpen = $state(false);
+	let isLoading = $state(false);
 
 	async function updateTask(newCheckedState: boolean) {
 		const response = await fetch('/api/task', {
@@ -115,7 +117,22 @@
 			<AlertDialog.Title>Edit Task</AlertDialog.Title>
 			<AlertDialog.Description>Make changes to your task details below.</AlertDialog.Description>
 		</AlertDialog.Header>
-		<form action="?/updateTask" method="POST">
+		<form
+			action="?/updateTask"
+			method="POST"
+			use:enhance={() => {
+				isLoading = true;
+
+				return async ({ result, update }) => {
+					isLoading = false;
+
+					if (result.type === 'success') {
+						isEditOpen = false;
+						await update();
+					}
+				};
+			}}
+		>
 			<input type="hidden" name="taskId" value={task.id} />
 			<input type="hidden" name="checked" value={Boolean(task.completed) ? 'true' : 'false'} />
 			<div class="space-y-4">
@@ -145,7 +162,14 @@
 			</div>
 			<AlertDialog.Footer class="mt-6">
 				<AlertDialog.Cancel type="button">Cancel</AlertDialog.Cancel>
-				<AlertDialog.Action type="submit">Save Changes</AlertDialog.Action>
+				<AlertDialog.Action type="submit">
+					{#if isLoading}
+						<Loader2Icon class="animate-spin" />
+						Please wait
+					{:else}
+						Save Changes
+					{/if}
+				</AlertDialog.Action>
 			</AlertDialog.Footer>
 		</form>
 	</AlertDialog.Content>
