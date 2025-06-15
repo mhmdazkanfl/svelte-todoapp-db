@@ -9,7 +9,7 @@
 	let { children } = $props();
 </script>
 
-<Toaster theme={mode.current} />
+<Toaster theme={mode.current} position="bottom-right" richColors />
 <ModeWatcher />
 
 <div class="flex min-h-screen flex-col items-center justify-center">

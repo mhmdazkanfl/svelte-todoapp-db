@@ -9,8 +9,10 @@
 	import Loader2Icon from '@lucide/svelte/icons/loader-2';
 	import { enhance } from '$app/forms';
 	import TaskList from '$lib/components/TaskList.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let isLoading = $state(false);
+	let addForm: HTMLFormElement;
 </script>
 
 <form class="absolute top-4 right-16" method="POST" action="?/logout" use:enhance>
@@ -24,14 +26,24 @@
 		</Card.Header>
 		<Card.Content>
 			<form
+				bind:this={addForm}
 				id="add-form"
 				action="?/addTask"
 				method="POST"
-				use:enhance={({ submitter }) => {
+				use:enhance={() => {
 					isLoading = true;
 
 					return async ({ result, update }) => {
 						isLoading = false;
+
+						if (result.type === 'success') {
+							toast.success((result.data?.message as string) || 'Task added successfully!');
+
+							addForm.reset();
+						} else if (result.type === 'failure') {
+							toast.error((result.data?.message as string) || 'Failed to add task');
+						}
+
 						await update();
 					};
 				}}
