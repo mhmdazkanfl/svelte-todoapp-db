@@ -12,7 +12,7 @@
 		<p class="text-muted-foreground text-sm sm:text-base">
 			Stay organized and boost your productivity
 		</p>
-		<p class="text-muted-foreground/70 mt-1 text-xs sm:text-sm">by ts0ra</p>
+		<p class="text-muted-foreground/70 mt-1 text-xs sm:text-sm">by Muhammad Azka Naufal</p>
 	</div>
 
 	<div class="space-y-3 sm:space-y-4">

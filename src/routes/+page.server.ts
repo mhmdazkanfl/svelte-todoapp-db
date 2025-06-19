@@ -3,12 +3,14 @@ import type { Actions, PageServerLoad } from './$types';
 import { deleteSessionTokenCookie, invalidateSession } from '$lib/server/session';
 import { addTask, getAllTask, updateTask, type Task } from '$lib/server/task';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, request }) => {
 	if (!locals.session || !locals.user) return redirect(302, '/welcome');
 
+	const url = new URL(request.url);
 	const tasks = await getAllTask(locals.user.id);
 
 	return {
+		origin: url.origin,
 		user: locals.user,
 		tasks
 	};
