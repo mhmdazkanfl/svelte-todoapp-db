@@ -1,6 +1,44 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button/index.js';
+
+	let { data } = $props();
+
+	// Constants
+	const pageTitle = 'Todo-App by Muhammad Azka Naufal';
+	const pageDescription =
+		'A modern, full-stack todo application built with Svelte 5, SvelteKit, and SQLite. Features authentication, task management, and beautiful UI with dark mode support.';
+	const siteName = 'Todo-App';
 </script>
+
+<svelte:head>
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDescription} />
+	<meta
+		name="keywords"
+		content="Todo App, Todo, App, Svelte 5, SvelteKit, Task Management, Management "
+	/>
+	<meta property="og:image" content="{data.origin}/logo.jpg" />
+	<meta name="twitter:image" content="{data.origin}/logo.jpg" />
+	<meta name="twitter:image:alt" content="Todo-App Logo" />
+	<meta name="author" content="Muhammad Azka Naufal" />
+	<meta property="og:title" content={pageTitle} />
+	<meta property="og:description" content={pageDescription} />
+	<meta property="og:url" content={data.origin} />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content={siteName} />
+	<meta property="og:locale" content="en_US" />
+	<meta name="twitter:title" content={pageTitle} />
+	<meta name="twitter:description" content={pageDescription} />
+	<meta name="twitter:card" content="summary_large_image" />
+	<link rel="canonical" href={data.origin} />
+	<meta name="application-name" content={siteName} />
+	<meta name="generator" content="SvelteKit" />
+	<meta name="license" content="MIT" />
+	<meta name="color-scheme" content="dark" />
+	<meta name="theme-color" content="#13111C" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="robots" href="{data.origin}/robots.txt" />
+</svelte:head>
 
 <div class="mx-auto w-full max-w-sm sm:max-w-md">
 	<div class="mb-8 text-center">

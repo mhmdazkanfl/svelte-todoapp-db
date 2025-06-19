@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = ({ cookies }) => {
+export const load: PageServerLoad = async ({ cookies, request }) => {
 	// Set the cookie when user visits welcome page
 	cookies.set('has_visited', 'true', {
 		path: '/',
@@ -10,5 +10,9 @@ export const load: PageServerLoad = ({ cookies }) => {
 		sameSite: 'strict'
 	});
 
-	return {};
+	const url = new URL(request.url);
+
+	return {
+		origin: url.origin
+	};
 };
