@@ -14,7 +14,10 @@
 		"lint": "prettier --check .",
 		"db:push": "drizzle-kit push",
 		"db:migrate": "drizzle-kit migrate",
-		"db:studio": "drizzle-kit studio"
+		"db:studio": "drizzle-kit studio",
+		"deploy": "wrangler deploy",
+		"cf-dev": "wrangler dev",
+		"cf-build": "vite build && wrangler deploy --dry-run"
 	},
 	"devDependencies": {
 		"@internationalized/date": "^3.8.2",
@@ -44,7 +47,7 @@
 	},
 	"dependencies": {
 		"@libsql/client": "^0.14.0",
-		"@node-rs/argon2": "^2.0.2",
+		"@noble/hashes": "^1.8.0",
 		"@oslojs/binary": "^1.0.0",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",

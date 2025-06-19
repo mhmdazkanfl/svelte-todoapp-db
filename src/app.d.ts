@@ -13,7 +13,17 @@ declare global {
 		}
 		// interface PageData {}
 		// interface PageState {}
-		// interface Platform {}
+		interface Platform {
+			env: {
+				DATABASE_URL: string;
+				DATABASE_AUTH_TOKEN: string;
+				ASSETS: any;
+			};
+			context: {
+				waitUntil(promise: Promise<any>): void;
+			};
+			caches: CacheStorage;
+		}
 	}
 }
 
