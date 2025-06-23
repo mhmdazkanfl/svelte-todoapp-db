@@ -5,6 +5,8 @@
 	import MoonIcon from '@lucide/svelte/icons/moon';
 	import { toggleMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import AppSidebar from '$lib/components/AppSidebar.svelte';
 
 	import { Button } from '$lib/components/ui/button/index.js';
 	let { children } = $props();
